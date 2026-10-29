@@ -10,8 +10,8 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       aria-label="Cambiar tema"
-    className="flex items-center gap-2 rounded-full border border-line px-3 py-1 text-sm text-muted hover:text-ink"
-    >
+      className="flex items-center gap-2 rounded-full border border-line px-3 py-1 text-sm text-muted hover:text-ink"     
+      >
       {theme === "light" ? (
         <>
           <Moon size={16} />
