@@ -12,6 +12,7 @@ import type {
   Orden,
   Paginado,
   Producto,
+  Portada,
 } from "@/types";
 
 export const PAGE_SIZE = 10;
@@ -108,7 +109,9 @@ async function request<T>(
 ): Promise<T> {
   const headers = new Headers(init.headers);
   headers.set("Accept", "application/json");
-  if (init.body) headers.set("Content-Type", "application/json");
+  if (init.body && !(init.body instanceof FormData)) {
+  headers.set("Content-Type", "application/json");
+  }
 
   if (auth) {
     const store = await cookies();
@@ -391,4 +394,52 @@ export async function actualizarProducto(
 
 export async function eliminarProducto(id: number): Promise<void> {
   await request<void>(`/comics/${id}/`, { method: "DELETE" }, true);
+}
+
+// Portadas
+
+export async function listarPortadas(): Promise<Portada[]> {
+  return listarTodo<Portada>("/portadas/");
+}
+
+export async function crearPortada(
+  comic: number,
+  imagen: File,
+): Promise<Portada> {
+  const formData = new FormData();
+  formData.append("comic", String(comic));
+  formData.append("imagen", imagen);
+
+  return request<Portada>(
+    "/portadas/",
+    {
+      method: "POST",
+      body: formData,
+    },
+    true,
+  );
+}
+
+export async function actualizarPortada(
+  id: number,
+  imagen: File,
+): Promise<Portada> {
+  const formData = new FormData();
+  formData.append("imagen", imagen);
+
+  return request<Portada>(
+    `/portadas/${id}/`,
+    {
+      method: "PATCH",
+      body: formData,
+    },
+    true,
+  );
+}
+// buscar la portada asociada al ID del comic
+export async function getPortadaPorComic(
+  comicId: number,
+): Promise<Portada | null> {
+  const portadas = await listarPortadas();
+  return portadas.find((portada) => portada.comic === comicId) ?? null;
 }

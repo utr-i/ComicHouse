@@ -1,5 +1,5 @@
 
-import { getProductos } from "@/lib/api";
+import { getProductos, listarPortadas } from "@/lib/api";
 import ProductGrid from "@/components/ProductGrid";
 import Pagination from "@/components/Pagination";
 export const dynamic = "force-dynamic";
@@ -13,10 +13,13 @@ export default async function CatalogoPage({
   const page = Math.max(1, Number(params.page) || 1);
   const search = params.search?.trim();
 
-  const data = await getProductos({
-    page,
-    search,
-  });
+  const [data, portadas] = await Promise.all([
+    getProductos({
+      page,
+      search,
+    }),
+    listarPortadas(),
+  ]);
 
   return (
     <section className="flex flex-col gap-8">
@@ -32,8 +35,7 @@ export default async function CatalogoPage({
         </p>
       </div>
 
-      <ProductGrid productos={data.results} />
-
+      <ProductGrid productos={data.results} portadas={portadas} />
       <Pagination
         page={data.page}
         totalPages={data.totalPages}
