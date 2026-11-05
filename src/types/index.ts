@@ -1,3 +1,5 @@
+import type { ColorPortada } from "@/lib/colors";
+
 export type Categoria = {
   id: number;
   nombre: string;
@@ -9,21 +11,18 @@ export type Producto = {
   id: number;
   titulo: string;
   autor: string;
+  autorId: number | null;
   editorial: string;
+  editorialId: number | null;
   categoria: Categoria;
   precio: number;
   stock: number;
-  isbn: string;
-  paginas: number;
+  fechaPublicacion: string;
   anio: number;
-  descripcion: string;
-  portada: string | null;
-  color: "lilac" | "peach" | "mint" | "sky" | "rose";
+  color: ColorPortada;
 };
 
-export type ProductoInput = Omit<Producto, "id" | "categoria"> & {
-  categoria: number;
-};
+export type Opcion = { id: number; nombre: string };
 
 export type Orden = "titulo" | "precio-asc" | "precio-desc";
 
@@ -34,7 +33,6 @@ export type FiltrosProductos = {
   precioMax?: number;
   orden?: Orden;
   page?: number;
-  pageSize?: number;
 };
 
 export type Paginado<T> = {

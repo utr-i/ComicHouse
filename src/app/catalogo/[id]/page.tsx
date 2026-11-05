@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getProducto } from "@/lib/api";
 import { formatPrecio } from "@/lib/format";
-import Badge from "@/components/Badge";
 import { fondos } from "@/lib/colors";
+import Badge from "@/components/Badge";
 
 export default async function ProductoPage({
   params,
@@ -28,7 +28,7 @@ export default async function ProductoPage({
 
       <div className="grid gap-10 md:grid-cols-[320px_1fr]">
         <div
-          className={`flex aspect-[3/4] flex-col justify-between rounded-lg ${fondos[producto.color]} p-6 text-[#23212b]`}
+          className={`flex aspect-[3/4] flex-col justify-between rounded-lg p-6 text-[#23212b] ${fondos[producto.color]}`}
         >
           <span className="text-xs uppercase tracking-wide opacity-70">
             {producto.editorial}
@@ -49,17 +49,16 @@ export default async function ProductoPage({
           <p className="text-muted">{producto.autor}</p>
           <p className="text-2xl font-medium">{formatPrecio(producto.precio)}</p>
           <Badge stock={producto.stock} />
-          <p className="max-w-prose leading-relaxed">{producto.descripcion}</p>
 
           <dl className="mt-4 grid max-w-md grid-cols-2 gap-y-2 text-sm">
+            <dt className="text-muted">Autor</dt>
+            <dd>{producto.autor}</dd>
             <dt className="text-muted">Editorial</dt>
             <dd>{producto.editorial}</dd>
-            <dt className="text-muted">Paginas</dt>
-            <dd>{producto.paginas}</dd>
-            <dt className="text-muted">Anio</dt>
+            <dt className="text-muted">Publicacion</dt>
             <dd>{producto.anio}</dd>
-            <dt className="text-muted">ISBN</dt>
-            <dd>{producto.isbn}</dd>
+            <dt className="text-muted">Unidades</dt>
+            <dd>{producto.stock}</dd>
           </dl>
         </div>
       </div>

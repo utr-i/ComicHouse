@@ -10,9 +10,6 @@ export default function LoginPage() {
         </p>
       </div>
       <LoginForm />
-      <p className="text-xs text-muted">
-        Prueba: usuario admin, contrasena admin123
-      </p>
     </section>
   );
 }

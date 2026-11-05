@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatPrecio, etiquetaStock } from "@/lib/format";
+import { formatPrecio, etiquetaStock, slugify } from "@/lib/format";
 
 describe("formatPrecio", () => {
   it("formatea en pesos argentinos sin decimales", () => {
@@ -20,5 +20,15 @@ describe("etiquetaStock", () => {
 
   it("marca disponible con stock normal", () => {
     expect(etiquetaStock(20)).toBe("Disponible");
+  });
+});
+
+describe("slugify", () => {
+  it("pasa a minusculas y une con guiones", () => {
+    expect(slugify("Ciencia Ficcion")).toBe("ciencia-ficcion");
+  });
+
+  it("quita acentos y simbolos", () => {
+    expect(slugify("Acci\u00f3n & Aventura!")).toBe("accion-aventura");
   });
 });
