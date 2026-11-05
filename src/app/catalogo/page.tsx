@@ -2,6 +2,7 @@
 import { getProductos } from "@/lib/api";
 import ProductGrid from "@/components/ProductGrid";
 import Pagination from "@/components/Pagination";
+export const dynamic = "force-dynamic";
 
 export default async function CatalogoPage({
   searchParams,

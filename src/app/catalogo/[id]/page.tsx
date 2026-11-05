@@ -5,6 +5,7 @@ import { getProducto } from "@/lib/api";
 import { formatPrecio } from "@/lib/format";
 import { fondos } from "@/lib/colors";
 import Badge from "@/components/Badge";
+export const dynamic = "force-dynamic";
 
 export default async function ProductoPage({
   params,
