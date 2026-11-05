@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { getCategoria, getProductos } from "@/lib/api";
+import {
+  getCategoria,
+  getProductos,
+  listarPortadas,
+} from "@/lib/api";
 import ProductGrid from "@/components/ProductGrid";
 import Pagination from "@/components/Pagination";
+
 export const dynamic = "force-dynamic";
 
 export default async function CategoriaPage({
@@ -19,7 +24,10 @@ export default async function CategoriaPage({
 
   if (!categoria) notFound();
 
-  const data = await getProductos({ categoria: slug, page: Number(page) || 1 });
+  const [data, portadas] = await Promise.all([
+    getProductos({ categoria: slug, page: Number(page) || 1 }),
+    listarPortadas(),
+  ]);
 
   return (
     <section className="flex flex-col gap-8">
@@ -34,12 +42,15 @@ export default async function CategoriaPage({
       <div>
         <h1 className="font-display text-4xl">{categoria.nombre}</h1>
         {categoria.descripcion && (
-          <p className="mt-2 max-w-prose text-muted">{categoria.descripcion}</p>
+          <p className="mt-2 max-w-prose text-muted">
+            {categoria.descripcion}
+          </p>
         )}
         <p className="mt-1 text-sm text-muted">{data.count} productos</p>
       </div>
 
-      <ProductGrid productos={data.results} />
+      <ProductGrid productos={data.results} portadas={portadas} />
+
       <Pagination
         page={data.page}
         totalPages={data.totalPages}

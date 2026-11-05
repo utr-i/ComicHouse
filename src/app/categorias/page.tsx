@@ -1,62 +1,39 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
-import {
-  getCategoria,
-  getProductos,
-  listarPortadas,
-} from "@/lib/api";
-import ProductGrid from "@/components/ProductGrid";
-import Pagination from "@/components/Pagination";
+import { getCategorias } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
-export default async function CategoriaPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ page?: string }>;
-}) {
-  const { slug } = await params;
-  const { page } = await searchParams;
-  const categoria = await getCategoria(slug);
-
-  if (!categoria) notFound();
-
-  const [data, portadas] = await Promise.all([
-    getProductos({ categoria: slug, page: Number(page) || 1 }),
-    listarPortadas(),
-  ]);
+export default async function CategoriasPage() {
+  const categorias = await getCategorias();
 
   return (
     <section className="flex flex-col gap-8">
-      <Link
-        href="/categorias"
-        className="flex items-center gap-2 text-sm text-muted hover:text-ink"
-      >
-        <ArrowLeft size={16} />
-        Todas las categorias
-      </Link>
-
       <div>
-        <h1 className="font-display text-4xl">{categoria.nombre}</h1>
-        {categoria.descripcion && (
-          <p className="mt-2 max-w-prose text-muted">
-            {categoria.descripcion}
-          </p>
-        )}
-        <p className="mt-1 text-sm text-muted">{data.count} productos</p>
+        <h1 className="font-display text-4xl">Categorías</h1>
+        <p className="mt-2 text-muted">
+          Explorá los comics por categoría.
+        </p>
       </div>
 
-      <ProductGrid productos={data.results} portadas={portadas} />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {categorias.map((categoria) => (
+          <Link
+            key={categoria.id}
+            href={`/categorias/${categoria.slug}`}
+            className="rounded-xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:border-ink"
+          >
+            <h2 className="font-display text-xl font-bold">
+              {categoria.nombre}
+            </h2>
 
-      <Pagination
-        page={data.page}
-        totalPages={data.totalPages}
-        params={{}}
-        basePath={`/categorias/${slug}`}
-      />
+            {categoria.descripcion && (
+              <p className="mt-2 text-sm text-muted">
+                {categoria.descripcion}
+              </p>
+            )}
+          </Link>
+        ))}
+      </div>
     </section>
   );
 }
