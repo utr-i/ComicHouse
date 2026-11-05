@@ -1,14 +1,6 @@
-import { getCategorias } from "@/lib/api";
-import { fondos } from "@/lib/colors";
-import CategoryCard from "@/components/CategoryCard";
 
-const colores = [
-  fondos.lilac,
-  fondos.peach,
-  fondos.mint,
-  fondos.sky,
-  fondos.rose,
-];
+import Link from "next/link";
+import { getCategorias } from "@/lib/api";
 
 export default async function CategoriasPage() {
   const categorias = await getCategorias();
@@ -16,19 +8,37 @@ export default async function CategoriasPage() {
   return (
     <section className="flex flex-col gap-8">
       <div>
-        <h1 className="font-display text-4xl">Categorias</h1>
-        <p className="mt-2 text-muted">Explora la libreria por genero.</p>
+        <h1 className="font-display text-4xl">
+          Categorias
+        </h1>
+        <p className="mt-2 text-muted">
+          Explora nuestros comics por genero.
+        </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {categorias.map((c, i) => (
-          <CategoryCard
-            key={c.id}
-            categoria={c}
-            color={colores[i % colores.length]}
-          />
-        ))}
-      </div>
+      {categorias.length === 0 ? (
+        <p className="py-16 text-center text-muted">
+          Todavia no hay categorias disponibles.
+        </p>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {categorias.map((categoria) => (
+            <Link
+              key={categoria.id}
+              href={`/categorias/${categoria.slug}`}
+              className="rounded-lg border border-line p-6 transition hover:border-ink"
+            >
+              <h2 className="font-display text-2xl">
+                {categoria.nombre}
+              </h2>
+
+              <p className="mt-2 text-sm text-muted">
+                {categoria.descripcion}
+              </p>
+            </Link>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

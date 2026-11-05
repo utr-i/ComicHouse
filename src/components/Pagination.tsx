@@ -4,10 +4,12 @@ export default function Pagination({
   page,
   totalPages,
   params,
+  basePath = "/catalogo",
 }: {
   page: number;
   totalPages: number;
   params: Record<string, string | undefined>;
+  basePath?: string;
 }) {
   if (totalPages <= 1) return null;
 
@@ -17,7 +19,7 @@ export default function Pagination({
       if (v && k !== "page") q.set(k, v);
     });
     q.set("page", String(n));
-    return `/catalogo?${q.toString()}`;
+    return `${basePath}?${q.toString()}`;
   };
 
   const base = "rounded-full border border-line px-4 py-2 text-sm";
