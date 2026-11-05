@@ -41,3 +41,27 @@ export type Paginado<T> = {
   page: number;
   totalPages: number;
 };
+
+export type Autor = {
+  id: number;
+  nombre: string;
+  apellido: string;
+  biografia: string;
+};
+
+export type Editorial = {
+  id: number;
+  nombre: string;
+  direccion: string;
+  telefono: string;
+};
+
+export type Genero = {
+  id: number;
+  nombre: string;
+  descripcion: string | null;
+};
+
+export type AutorValues = Omit<Autor, "id">;
+export type EditorialValues = Omit<Editorial, "id">;
+export type GeneroValues = Omit<Genero, "id">;

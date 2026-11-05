@@ -28,8 +28,7 @@ export default function Sidebar() {
   return (
     <aside className="flex shrink-0 flex-col gap-1 md:w-52">
       {links.map(({ href, label, icon: Icon }) => {
-        const activo =
-          pathname === href || (href !== "/dashboard" && pathname.startsWith(href + "/"));
+        const activo = pathname === href;
 
         return (
           <Link

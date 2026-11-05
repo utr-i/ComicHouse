@@ -17,9 +17,23 @@ import type {
 export const PAGE_SIZE = 10;
 
 // Formato crudo que devuelve el Back (Django REST Framework)
-type RawAutor = { id: number; nombre: string; apellido: string };
-type RawEditorial = { id: number; nombre: string };
-type RawGenero = { id: number; nombre: string; descripcion: string | null };
+type RawAutor = {
+  id: number;
+  nombre: string;
+  apellido: string;
+  biografia: string;
+};
+type RawEditorial = {
+  id: number;
+  nombre: string;
+  direccion: string;
+  telefono: string;
+};
+type RawGenero = {
+  id: number;
+  nombre: string;
+  descripcion: string | null 
+  };
 type RawComic = {
   id: number;
   titulo: string;
@@ -35,6 +49,23 @@ type Page<T> = {
   next: string | null;
   previous: string | null;
   results: T[];
+};
+
+type AutorValues = {
+  nombre: string;
+  apellido: string;
+  biografia: string;
+};
+
+type EditorialValues = {
+  nombre: string;
+  direccion: string;
+  telefono: string;
+};
+
+type GeneroValues = {
+  nombre: string;
+  descripcion: string;
 };
 
 export class ApiError extends Error {
@@ -246,6 +277,93 @@ export async function getAutores(): Promise<Opcion[]> {
 export async function getEditoriales(): Promise<Opcion[]> {
   const raw = await listarTodo<RawEditorial>("/editoriales/", true);
   return raw.map((e) => ({ id: e.id, nombre: e.nombre }));
+}
+
+// CRUD de autores
+
+export async function listarAutores(): Promise<RawAutor[]> {
+  return listarTodo<RawAutor>("/autores/", true);
+}
+
+export async function crearAutor(data: AutorValues): Promise<RawAutor> {
+  return request<RawAutor>(
+    "/autores/",
+    { method: "POST", body: JSON.stringify(data) },
+    true,
+  );
+}
+
+export async function actualizarAutor(
+  id: number,
+  data: AutorValues,
+): Promise<RawAutor> {
+  return request<RawAutor>(
+    `/autores/${id}/`,
+    { method: "PUT", body: JSON.stringify(data) },
+    true,
+  );
+}
+
+export async function eliminarAutor(id: number): Promise<void> {
+  await request<void>(`/autores/${id}/`, { method: "DELETE" }, true);
+}
+
+// CRUD de editoriales
+
+export async function listarEditoriales(): Promise<RawEditorial[]> {
+  return listarTodo<RawEditorial>("/editoriales/", true);
+}
+
+export async function crearEditorial(data: EditorialValues): Promise<RawEditorial> {
+  return request<RawEditorial>(
+    "/editoriales/",
+    { method: "POST", body: JSON.stringify(data) },
+    true,
+  );
+}
+
+export async function actualizarEditorial(
+  id: number,
+  data: EditorialValues,
+): Promise<RawEditorial> {
+  return request<RawEditorial>(
+    `/editoriales/${id}/`,
+    { method: "PUT", body: JSON.stringify(data) },
+    true,
+  );
+}
+
+export async function eliminarEditorial(id: number): Promise<void> {
+  await request<void>(`/editoriales/${id}/`, { method: "DELETE" }, true);
+}
+
+// CRUD de géneros
+
+export async function listarGeneros(): Promise<RawGenero[]> {
+  return listarTodo<RawGenero>("/generos/");
+}
+
+export async function crearGenero(data: GeneroValues): Promise<RawGenero> {
+  return request<RawGenero>(
+    "/generos/",
+    { method: "POST", body: JSON.stringify(data) },
+    true,
+  );
+}
+
+export async function actualizarGenero(
+  id: number,
+  data: GeneroValues,
+): Promise<RawGenero> {
+  return request<RawGenero>(
+    `/generos/${id}/`,
+    { method: "PUT", body: JSON.stringify(data) },
+    true,
+  );
+}
+
+export async function eliminarGenero(id: number): Promise<void> {
+  await request<void>(`/generos/${id}/`, { method: "DELETE" }, true);
 }
 
 // Escritura (requiere token)
