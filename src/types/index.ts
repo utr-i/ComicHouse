@@ -62,6 +62,13 @@ export type Genero = {
   descripcion: string | null;
 };
 
+export type Portada = {
+  id: number;
+  comic: number;
+  imagen: string;
+  descripcion: string;
+};
+
 export type AutorValues = Omit<Autor, "id">;
 export type EditorialValues = Omit<Editorial, "id">;
 export type GeneroValues = Omit<Genero, "id">;

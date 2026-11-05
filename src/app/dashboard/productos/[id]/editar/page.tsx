@@ -4,6 +4,7 @@ import {
   getCategorias,
   getEditoriales,
   getProducto,
+  getPortadaPorComic,
 } from "@/lib/api";
 import ProductForm from "@/components/ProductForm";
 
@@ -13,11 +14,12 @@ export default async function EditarProductoPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [producto, categorias, autores, editoriales] = await Promise.all([
+  const [producto, categorias, autores, editoriales, portada] = await Promise.all([
     getProducto(Number(id)),
     getCategorias(),
     getAutores(),
     getEditoriales(),
+    getPortadaPorComic(Number(id)),
   ]);
 
   if (!producto) notFound();
@@ -30,6 +32,7 @@ export default async function EditarProductoPage({
         autores={autores}
         editoriales={editoriales}
         producto={producto}
+        portada={portada}
       />
     </section>
   );

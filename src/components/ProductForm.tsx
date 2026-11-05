@@ -4,26 +4,30 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productoSchema, type ProductoValues } from "@/lib/schemas";
+import Image from "next/image";
 import {
   actualizarProductoAction,
   crearProductoAction,
 } from "@/app/actions/productos";
 import FormField from "@/components/FormField";
-import type { Categoria, Opcion, Producto } from "@/types";
+import type { Categoria, Opcion, Producto, Portada } from "@/types";
 
 export default function ProductForm({
   categorias,
   autores,
   editoriales,
   producto,
+  portada,
 }: {
   categorias: Categoria[];
   autores: Opcion[];
   editoriales: Opcion[];
   producto?: Producto;
+  portada?: Portada | null;
 }) {
   const [errorApi, setErrorApi] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const [imagen, setImagen] = useState<File | null>(null);
 
   const {
     register,
@@ -45,24 +49,36 @@ export default function ProductForm({
       : undefined,
   });
 
-  function onSubmit(values: ProductoValues) {
-    setErrorApi(null);
-    startTransition(async () => {
-      const res = producto
-        ? await actualizarProductoAction(producto.id, values)
-        : await crearProductoAction(values);
+function onSubmit(values: ProductoValues) {
+  setErrorApi(null);
 
-      if (res?.campos) {
-        for (const [campo, mensajes] of Object.entries(res.campos)) {
-          if (campo in values) {
-            setError(campo as keyof ProductoValues, {
-              message: mensajes.join(" "),
-            });
-          }
+  startTransition(async () => {
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([campo, valor]) => {
+      formData.append(campo, String(valor));
+    });
+
+    if (imagen) {
+      formData.append("imagen", imagen);
+    }
+
+    const res = producto
+      ? await actualizarProductoAction(producto.id, formData)
+      : await crearProductoAction(formData);
+
+    if (res?.campos) {
+      for (const [campo, mensajes] of Object.entries(res.campos)) {
+        if (campo in values) {
+          setError(campo as keyof ProductoValues, {
+            message: mensajes.join(" "),
+          });
         }
       }
-      if (res?.error) setErrorApi(res.error);
-    });
+    }
+
+    if (res?.error) setErrorApi(res.error);
+  });
   }
 
   const campo =
@@ -164,6 +180,40 @@ export default function ProductForm({
             {...register("stock", { valueAsNumber: true })}
           />
         </FormField>
+      </div>
+      
+      <div className="flex flex-col gap-2">
+        <label htmlFor="imagen" className="text-sm font-medium">
+          Portada del cómic
+        </label>
+
+        {portada && (
+          <div className="flex flex-col gap-2">
+            <p className="text-xs text-muted">Portada actual:</p>
+            <Image
+              src={portada.imagen}
+              alt="Portada del cómic"
+              width={144}
+              height={192}
+              unoptimized
+              className="h-48 w-36 rounded-lg border border-line object-cover"
+            />
+          </div>
+        )}
+
+        <input
+          id="imagen"
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImagen(e.target.files?.[0] ?? null)}
+          className="w-full rounded-lg border border-line bg-paper px-4 py-2 text-sm"
+        />
+
+        <p className="text-xs text-muted">
+          {portada
+            ? "Seleccioná otra imagen si querés reemplazar la portada actual."
+            : "Seleccioná una imagen para la portada."}
+        </p>
       </div>
 
       {errorApi && (

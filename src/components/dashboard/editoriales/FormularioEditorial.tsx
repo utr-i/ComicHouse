@@ -31,8 +31,8 @@ export default function FormularioEditorial({
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
 
-  async function guardar(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function guardar(evento: React.FormEvent<HTMLFormElement>) {
+    evento.preventDefault();
     setError("");
     setCargando(true);
 
@@ -59,7 +59,7 @@ export default function FormularioEditorial({
         <input
           required
           value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
+          onChange={(evento) => setNombre(evento.target.value)}
           className="w-full rounded-lg border border-line bg-paper px-3 py-2 outline-none focus:border-ink"
         />
       </div>
@@ -68,7 +68,7 @@ export default function FormularioEditorial({
         <label className="mb-1 block text-sm">Dirección</label>
         <input
           value={direccion}
-          onChange={(e) => setDireccion(e.target.value)}
+          onChange={(evento) => setDireccion(evento.target.value)}
           className="w-full rounded-lg border border-line bg-paper px-3 py-2 outline-none focus:border-ink"
         />
       </div>
@@ -77,7 +77,7 @@ export default function FormularioEditorial({
         <label className="mb-1 block text-sm">Teléfono</label>
         <input
           value={telefono}
-          onChange={(e) => setTelefono(e.target.value)}
+          onChange={(evento) => setTelefono(evento.target.value)}
           className="w-full rounded-lg border border-line bg-paper px-3 py-2 outline-none focus:border-ink"
         />
       </div>

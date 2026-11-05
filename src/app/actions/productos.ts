@@ -10,6 +10,9 @@ import {
   actualizarProducto,
   crearProducto,
   eliminarProducto,
+  crearPortada,
+  listarPortadas,
+  actualizarPortada,
 } from "@/lib/api";
 
 export type ActionState = {
@@ -28,14 +31,32 @@ function aEstado(e: unknown): ActionState {
   throw e;
 }
 
-export async function crearProductoAction(values: unknown): Promise<ActionState> {
+export async function crearProductoAction(
+  formData: FormData,
+): Promise<ActionState> {
   if (!(await haySesion())) redirect("/login");
 
+  const values = {
+    titulo: formData.get("titulo"),
+    autor: Number(formData.get("autor")),
+    editorial: Number(formData.get("editorial")),
+    genero: Number(formData.get("genero")),
+    fecha_publicacion: formData.get("fecha_publicacion"),
+    precio: Number(formData.get("precio")),
+    stock: Number(formData.get("stock")),
+  };
+
   const parsed = productoSchema.safeParse(values);
-  if (!parsed.success) return { error: "Datos invalidos" };
+  if (!parsed.success) return { error: "Datos inválidos" };
+
+  const imagen = formData.get("imagen");
 
   try {
-    await crearProducto(parsed.data);
+    const producto = await crearProducto(parsed.data);
+
+    if (imagen instanceof File && imagen.size > 0) {
+      await crearPortada(producto.id, imagen);
+    }
   } catch (e) {
     return aEstado(e);
   }
@@ -47,15 +68,38 @@ export async function crearProductoAction(values: unknown): Promise<ActionState>
 
 export async function actualizarProductoAction(
   id: number,
-  values: unknown,
+  formData: FormData,
 ): Promise<ActionState> {
   if (!(await haySesion())) redirect("/login");
 
+  const values = {
+    titulo: formData.get("titulo"),
+    autor: Number(formData.get("autor")),
+    editorial: Number(formData.get("editorial")),
+    genero: Number(formData.get("genero")),
+    fecha_publicacion: formData.get("fecha_publicacion"),
+    precio: Number(formData.get("precio")),
+    stock: Number(formData.get("stock")),
+  };
+
   const parsed = productoSchema.safeParse(values);
-  if (!parsed.success) return { error: "Datos invalidos" };
+  if (!parsed.success) return { error: "Datos inválidos" };
+
+  const imagen = formData.get("imagen");
 
   try {
     await actualizarProducto(id, parsed.data);
+
+    if (imagen instanceof File && imagen.size > 0) {
+      const portadas = await listarPortadas();
+      const portadaActual = portadas.find((p) => p.comic === id);
+
+      if (portadaActual) {
+        await actualizarPortada(portadaActual.id, imagen);
+      } else {
+        await crearPortada(id, imagen);
+      }
+    }
   } catch (e) {
     return aEstado(e);
   }
