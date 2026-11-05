@@ -86,16 +86,21 @@ async function request<T>(
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  let res: Response;
-  try {
-    res = await fetch(`${apiUrl()}${path}`, {
-      ...init,
-      headers,
-      cache: "no-store",
-    });
-  } catch {
-    throw new ApiError(0, "No se pudo conectar con el servidor");
-  }
+const baseUrl = apiUrl();
+
+let res: Response;
+
+try {
+  res = await fetch(`${baseUrl}${path}`, {
+    ...init,
+    headers,
+    cache: "no-store",
+  });
+} catch (error) {
+  console.error("Error conectando con la API:", error);
+
+  throw new ApiError(0, "No se pudo conectar con el servidor");
+}
 
   if (!res.ok) {
     if (res.status === 401 && auth) redirect("/sesion-expirada");
