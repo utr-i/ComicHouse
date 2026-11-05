@@ -39,9 +39,8 @@ El sistema tiene dos partes:
 |---|---|
 | Aplicacion desplegada | https://comic-house.vercel.app |
 | Repositorio del front | https://github.com/utr-i/ComicHouse |
-| Repositorio de la API (Ingenieria de Software) | COMPLETAR: enlace al repositorio oficial del Back |
-| Documentacion de la API (Swagger) | COMPLETAR: URL publica del Back + ruta de Swagger |
-| Tablero Kanban | COMPLETAR: enlace a Trello o GitHub Projects |
+| Repositorio de la API (Ingenieria de Software) | (https://github.com/Oyola2024/ComicHouse) |
+| Documentacion de la API (Swagger) | (https://back-3y41.onrender.com/api/docs/swagger/) |
 
 > El despliegue usa una copia del repositorio del Back, configurada para hosting (variables de entorno, `ALLOWED_HOSTS` y duracion del token). El codigo de la API es el mismo que el del repositorio oficial.
 
