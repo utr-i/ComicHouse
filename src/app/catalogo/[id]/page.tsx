@@ -1,7 +1,8 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MessageCircle, MapPin } from "lucide-react";
 import { getProducto, getPortadaPorComic } from "@/lib/api";
 import { formatPrecio } from "@/lib/format";
 import { fondos } from "@/lib/colors";
@@ -21,6 +22,9 @@ export default async function ProductoPage({
 
   const portada = await getPortadaPorComic(Number(id));
 
+  const mensaje = `Hola! Estoy interesado en el cómic "${producto.titulo}". Quería consultar si está disponible.`;
+  const whatsapp = `https://wa.me/5493585168615?text=${encodeURIComponent(mensaje)}`;
+
   return (
     <article className="flex flex-col gap-8">
       <Link
@@ -28,57 +32,93 @@ export default async function ProductoPage({
         className="flex items-center gap-2 text-sm text-muted hover:text-ink"
       >
         <ArrowLeft size={16} />
-        Volver al catalogo
+        Volver al catálogo
       </Link>
 
-      <div className="grid gap-10 md:grid-cols-[320px_1fr]">
-        <div
-          className={`relative flex aspect-[3/4] flex-col overflow-hidden rounded-lg p-6 text-[#23212b] ${fondos[producto.color]}`}
-        >
-          {portada && (
-            <Image
-              src={portada.imagen}
-              alt={`Portada de ${producto.titulo}`}
-              fill
-              unoptimized
-              priority
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 320px"
-            />
-          )}
+      <div className="relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-2xl bg-surface">
+        {portada ? (
+          <Image
+            src={portada.imagen}
+            alt={`Portada de ${producto.titulo}`}
+            fill
+            unoptimized
+            priority
+            className="object-contain"
+            sizes="100vw"
+          />
+        ) : (
+          <div
+            className={`flex h-full w-full items-center justify-center ${fondos[producto.color]}`}
+          >
+            <span className="text-xl font-bold">{producto.titulo}</span>
+          </div>
+        )}
+      </div>
 
-          {portada && (
-            <div className="absolute inset-0" />
-          )}
-
-        </div>
-
-        <div className="flex flex-col gap-4">
+      <div className="grid gap-6 md:grid-cols-[1fr_280px]">
+        <section className="rounded-2xl border border-border bg-surface p-6">
           <Link
             href={`/categorias/${producto.categoria.slug}`}
-            className="text-sm text-muted hover:text-ink"
+            className="text-xs font-bold uppercase tracking-widest text-accent"
           >
             {producto.categoria.nombre}
           </Link>
 
-          <h1 className="font-display text-4xl">{producto.titulo}</h1>
-          <p className="text-muted">{producto.autor}</p>
-          <p className="text-2xl font-medium">
-            {formatPrecio(producto.precio)}
-          </p>
-          <Badge stock={producto.stock} />
+          <h1 className="mt-3 font-display text-3xl font-bold">
+            {producto.titulo}
+          </h1>
 
-          <dl className="mt-4 grid max-w-md grid-cols-2 gap-y-2 text-sm">
+          <p className="mt-2 text-sm text-muted">{producto.autor}</p>
+
+          <div className="my-6 border-t border-border" />
+
+          <h2 className="mb-3 text-sm font-semibold">Información del cómic</h2>
+
+          <dl className="grid grid-cols-2 gap-y-4 text-sm">
             <dt className="text-muted">Autor</dt>
             <dd>{producto.autor}</dd>
+
             <dt className="text-muted">Editorial</dt>
             <dd>{producto.editorial}</dd>
-            <dt className="text-muted">Publicacion</dt>
+
+            <dt className="text-muted">Publicación</dt>
             <dd>{producto.anio}</dd>
-            <dt className="text-muted">Unidades</dt>
+
+            <dt className="text-muted">Unidades disponibles</dt>
             <dd>{producto.stock}</dd>
           </dl>
-        </div>
+        </section>
+
+        <aside className="flex h-fit flex-col gap-5 rounded-2xl border border-border bg-surface p-6">
+          <div>
+            <p className="text-sm text-muted">Precio del cómic</p>
+            <p className="mt-1 text-3xl font-bold text-accent">
+              {formatPrecio(producto.precio)}
+            </p>
+          </div>
+
+          <div className="border-t border-border pt-5">
+            <Badge stock={producto.stock} />
+
+            <h2 className="mt-5 font-semibold">
+              ¿Te interesa este cómic?
+            </h2>
+
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              Consultanos por WhatsApp para obtener más información sobre este cómic.
+            </p>
+          </div>
+
+          <a
+            href={whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#1ebe5d]"
+          >
+            <MessageCircle size={19} />
+            Contactar librería
+          </a>
+        </aside>
       </div>
     </article>
   );
