@@ -35,7 +35,7 @@ export default async function ProductoPage({
         Volver al catálogo
       </Link>
 
-      <div className="relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-2xl bg-surface">
+      <div className="relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-2xl bg-paper">
         {portada ? (
           <Image
             src={portada.imagen}
@@ -56,10 +56,10 @@ export default async function ProductoPage({
       </div>
 
       <div className="grid gap-6 md:grid-cols-[1fr_280px]">
-        <section className="rounded-2xl border border-border bg-surface p-6">
+        <section className="rounded-2xl border border-line bg-paper p-6">
           <Link
             href={`/categorias/${producto.categoria.slug}`}
-            className="text-xs font-bold uppercase tracking-widest text-accent"
+            className="text-xs font-bold uppercase tracking-widest text-ink"
           >
             {producto.categoria.nombre}
           </Link>
@@ -70,7 +70,7 @@ export default async function ProductoPage({
 
           <p className="mt-2 text-sm text-muted">{producto.autor}</p>
 
-          <div className="my-6 border-t border-border" />
+          <div className="my-6 border-t border-line" />
 
           <h2 className="mb-3 text-sm font-semibold">Información del cómic</h2>
 
@@ -89,15 +89,15 @@ export default async function ProductoPage({
           </dl>
         </section>
 
-        <aside className="flex h-fit flex-col gap-5 rounded-2xl border border-border bg-surface p-6">
+        <aside className="flex h-fit flex-col gap-5 rounded-2xl border border-line bg-paper p-6">
           <div>
             <p className="text-sm text-muted">Precio del cómic</p>
-            <p className="mt-1 text-3xl font-bold text-accent">
+            <p className="mt-1 text-3xl font-bold text-ink">
               {formatPrecio(producto.precio)}
             </p>
           </div>
 
-          <div className="border-t border-border pt-5">
+          <div className="border-t border-line pt-5">
             <Badge stock={producto.stock} />
 
             <h2 className="mt-5 font-semibold">

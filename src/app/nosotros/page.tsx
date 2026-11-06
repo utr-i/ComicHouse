@@ -1,20 +1,21 @@
+
 import { Triangle } from "lucide-react";
 
 const valores = [
   {
-    titulo: "Curaduria",
+    titulo: "Curaduría",
     texto:
-      "Elegimos cada titulo con criterio: clasicos que no pasan de moda y novedades que valen la pena.",
+      "Elegimos cada cómic, manga y novela gráfica buscando historias que valga la pena descubrir.",
   },
   {
-    titulo: "Historieta en serio",
+    titulo: "Pasión por las historias",
     texto:
-      "Comics, novelas graficas y manga tienen en nuestros estantes el mismo lugar que la novela.",
+      "Desde los grandes clásicos hasta las últimas novedades, damos lugar a distintos géneros y estilos.",
   },
   {
-    titulo: "Atencion cercana",
+    titulo: "Atención cercana",
     texto:
-      "Recomendamos lo que nos gusta leer. Si no sabes por donde empezar, preguntanos.",
+      "Te ayudamos a encontrar tu próxima lectura y recomendamos historias según tus gustos.",
   },
 ];
 
@@ -25,10 +26,9 @@ export default function NosotrosPage() {
         <Triangle size={28} className="text-lilac" strokeWidth={2.5} />
         <h1 className="font-display text-4xl">Sobre Prisma Libros</h1>
         <p className="leading-relaxed text-muted">
-          Prisma Libros es una libreria de barrio con una idea simple: asi como
-          un prisma separa la luz en todos sus colores, una buena libreria
-          separa las historias en generos, voces y formatos para que cada
-          lector encuentre el suyo.
+          Prisma Libros es un espacio dedicado al mundo de los cómics, mangas y
+          novelas gráficas. Buscamos reunir historias, personajes y universos
+          diferentes para que cada lector encuentre algo que lo sorprenda.
         </p>
       </div>
 

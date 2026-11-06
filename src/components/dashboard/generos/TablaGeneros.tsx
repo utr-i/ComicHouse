@@ -95,8 +95,9 @@ export default function TablaGeneros({
                   <td className="py-3">
                     {confirmar === genero.id ? (
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-muted">¿Borrar?</span>
-
+                        <span className="text-muted">
+                          ¿Eliminar este género? Los cómics asociados también podrían eliminarse.
+                        </span>
                         <button
                           onClick={() => borrar(genero.id)}
                           disabled={pending}

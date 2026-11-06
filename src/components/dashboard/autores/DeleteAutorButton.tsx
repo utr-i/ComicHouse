@@ -35,8 +35,9 @@ export default function DeleteAutorButton({
   if (confirmar) {
     return (
       <span className="flex items-center gap-2 text-sm">
-        <span className="text-muted">¿Borrar {nombre}?</span>
-
+        <span className="text-muted">
+          ¿Eliminar a {nombre}? Los cómics asociados también podrían eliminarse.
+        </span>
         <button
           onClick={borrar}
           disabled={pending}
