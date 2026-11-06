@@ -16,7 +16,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Prisma Libros",
+  title: "Comic House",
   description: "Libreria y comics",
 };
 

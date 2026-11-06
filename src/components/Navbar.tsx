@@ -16,7 +16,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2">
           <Triangle size={20} className="text-lilac" strokeWidth={2.5} />
           <span className="font-display text-xl tracking-tight">
-            Prisma Libros
+            Comic House
           </span>
         </Link>
 
