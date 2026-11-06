@@ -96,8 +96,9 @@ export default function TablaEditoriales({
                   <td className="py-3">
                     {confirmar === editorial.id ? (
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-muted">¿Borrar?</span>
-
+                        <span className="text-muted">
+                          ¿Eliminar esta editorial? Los cómics asociados también podrían eliminarse.
+                        </span>
                         <button
                           onClick={() => borrar(editorial.id)}
                           disabled={pending}

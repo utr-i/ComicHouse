@@ -20,7 +20,7 @@ export default async function CategoriasPage() {
           <Link
             key={categoria.id}
             href={`/categorias/${categoria.slug}`}
-            className="rounded-xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:border-ink"
+            className="rounded-xl border border-line bg-paper p-6 transition hover:-translate-y-1 hover:border-ink"
           >
             <h2 className="font-display text-xl font-bold">
               {categoria.nombre}
