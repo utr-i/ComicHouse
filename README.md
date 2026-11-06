@@ -227,15 +227,15 @@ Para desplegar:
 
 | Catalogo | Detalle de un comic |
 |---|---|
-| ![Catalogo](docs/screenshots/catalogo.png) | ![Detalle](docs/screenshots/detalle.png) |
+| ![Catalogo](docs/screenshot/catalogo.png) | ![Detalle](docs/screenshot/detalle.png) |
 
 | Login | Panel de administracion |
 |---|---|
-| ![Login](docs/screenshots/login.png) | ![Panel](docs/screenshots/dashboard.png) |
+| ![Login](docs/screenshot/login.png) | ![Panel](docs/screenshot/dashboard.png) |
 
 | Formulario con validaciones | Modo oscuro |
 |---|---|
-| ![Formulario](docs/screenshots/formulario.png) | ![Oscuro](docs/screenshots/oscuro.png) |
+| ![Formulario](docs/screenshot/formulario.png) | ![Oscuro](docs/screenshot/oscuro.png) |
 
 ## Integrantes
 
